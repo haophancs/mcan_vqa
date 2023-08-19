@@ -17,7 +17,6 @@ class MCAN(nn.Module):
 
         # image and question representation
         self.visual_embedding = VisualEmbedding(d_model, dropout)
-        self.text_embedding = TextEmbedding(vocab, embedding_dim, d_model, dropout)
         self.text_embedding = text_embedding
 
         # deep co-attention learning
