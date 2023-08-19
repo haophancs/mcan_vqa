@@ -26,7 +26,7 @@ class VQAVocab(object):
         self.stoi = tokenizer.get_vocab()
         self.itos = {v: k for k, v in self.stoi.items()}
 
-        print(self.max_question_length)
+        raise ValueError
 
     def make_vocab(self, json_path_prefixes):
         for json_path_prefix in json_path_prefixes:
