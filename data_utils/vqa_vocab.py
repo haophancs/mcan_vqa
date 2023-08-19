@@ -24,6 +24,8 @@ class VQAVocab(object):
         self.output_cats = set()
         self.tokenizer = AutoTokenizer.from_pretrained(pretrained_tokenizer_name)
         self.pad_token = self.tokenizer.pad_token
+        self.bos_token = self.tokenizer.bos_token
+        self.eos_token = self.tokenizer.eos_token
         self.stoi = self.tokenizer.get_vocab()
         self.itos = {v: k for k, v in self.stoi.items()}
         for json_path_prefix in json_path_prefixes:
@@ -33,8 +35,8 @@ class VQAVocab(object):
                 question = self.tokenizer(
                     preprocess_question(
                         q_item["question"],
-                        self.tokenizer.bos_token,
-                        self.tokenizer.eos_token
+                        self.bos_token,
+                        self.eos_token
                     ))["input_ids"]
                 answer = preprocess_answer(a_item["multiple_choice_answer"])
                 self.output_cats.add(answer)

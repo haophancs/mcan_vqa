@@ -41,7 +41,7 @@ class VQA(data.Dataset):
         annotation_data = json.load(open(json_path_prefix + 'annotations.json'))
         for q_item, a_item in zip(question_data["questions"], annotation_data["annotations"]):
             assert q_item['question_id'] == a_item['question_id']
-            questions.append(preprocess_question(q_item["question"]))
+            questions.append(preprocess_question(q_item["question"], self.vocab.bos_token, self.vocab.eos_token))
             answers.append(preprocess_answer(a_item["multiple_choice_answer"]))
             image_ids.append(a_item["image_id"])
 
