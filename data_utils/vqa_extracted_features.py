@@ -11,10 +11,10 @@ import config
 class VQA(data.Dataset):
     """ VQA dataset, open-ended """
 
-    def __init__(self, json_path_prefix, image_features_path, vocab=None):
+    def __init__(self, json_path_prefix, image_features_path):
         super(VQA, self).__init__()
         # vocab
-        self.vocab = VQAVocab([json_path_prefix]) if vocab is None else vocab
+        self.vocab = VQAVocab([json_path_prefix], pretrained_tokenizer_name=config.pretrained_text_model)
 
         # q and a
         self.questions, self.answers, self.image_ids = self.load_json(json_path_prefix)

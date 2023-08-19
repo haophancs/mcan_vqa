@@ -101,14 +101,11 @@ def run(net, loaders, fold_idx, optimizer, tracker, train=False, prefix='', epoc
 def main():
     cudnn.benchmark = True
 
-    if os.path.isfile(os.path.join(config.model_checkpoint, "vocab.pkl")):
-        vocab = pickle.load(open(os.path.join(config.model_checkpoint, "vocab.pkl"), "rb"))
-    else:
-        vocab = VQAVocab(
-            [config.json_train_path_prefix, config.json_test_path_prefix],
-            pretrained_tokenizer_name=config.pretrained_text_model
-        )
-        pickle.dump(vocab, open(os.path.join(config.model_checkpoint, "vocab.pkl"), "wb"))
+    vocab = VQAVocab(
+        [config.json_train_path_prefix, config.json_test_path_prefix],
+        pretrained_tokenizer_name=config.pretrained_text_model
+    )
+    pickle.dump(vocab, open(os.path.join(config.model_checkpoint, "vocab.pkl"), "wb"))
 
     metrics.vocab = vocab
     train_dataset = VQA(config.json_train_path_prefix, config.preprocessed_path, vocab)
