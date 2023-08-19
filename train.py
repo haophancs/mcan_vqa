@@ -108,8 +108,8 @@ def main():
     pickle.dump(vocab, open(os.path.join(config.model_checkpoint, "vocab.pkl"), "wb"))
 
     metrics.vocab = vocab
-    train_dataset = VQA(config.json_train_path_prefix, config.preprocessed_path, vocab)
-    test_dataset = VQA(config.json_test_path_prefix, config.preprocessed_path, vocab)
+    train_dataset = VQA(config.json_train_path_prefix, config.preprocessed_path)
+    test_dataset = VQA(config.json_test_path_prefix, config.preprocessed_path)
 
     if os.path.isfile(os.path.join(config.model_checkpoint, "folds.pkl")):
         folds, test_fold = pickle.load(open(os.path.join(config.model_checkpoint, "folds.pkl"), "rb"))
