@@ -4,7 +4,6 @@ import re
 
 def preprocess_question(question, tokenizer):
     question = re.sub("\"", "", question)
-    question = question.lower().strip().split()
     return [tokenizer.bos_token] + tokenizer.tokenize(question) + [tokenizer.eos_token]
 
 def preprocess_answer(answer):
