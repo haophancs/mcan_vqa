@@ -17,6 +17,7 @@ def _default_unk_index():
 class VQAVocab(object):
 
     def __init__(self, json_prefixes, pretrained_tokenizer_name):
+        self.max_question_length = 0
         self.output_cats = set()
         self.make_vocab(json_prefixes)
 
@@ -25,10 +26,14 @@ class VQAVocab(object):
 
     def make_vocab(self, json_path_prefixes):
         for json_path_prefix in json_path_prefixes:
+            question_data = json.load(open(json_path_prefix + 'questions.json'))
             annotation_data = json.load(open(json_path_prefix + 'annotations.json'))
-            for a_item in annotation_data["annotations"]:
+            for q_item, a_item in zip(question_data["questions"], annotation_data["annotations"]):
+                question = self.tokenizer(preprocess_question(q_item["question"]))["input_ids"]
                 answer = preprocess_answer(a_item["multiple_choice_answer"])
                 self.output_cats.add(answer)
+                if len(question) > self.max_question_length:
+                    self.max_question_length = len(question)
 
         self.output_cats = list(self.output_cats)
 
