@@ -2,10 +2,10 @@ import torch
 from torchvision import transforms
 import re
 
-def preprocess_question(question):
+def preprocess_question(question, sos_token, eos_token):
     question = re.sub("\"", "", question)
     question = question.lower().strip().split()
-    return ["<sos>"] + question + ["<eos>"]
+    return [sos_token] + question + [eos_token]
 
 def preprocess_answer(answer):
     answer = re.sub("\"", "", answer)
@@ -40,20 +40,3 @@ def reporthook(t):
         t.update((b - last_b[0]) * bsize)
         last_b[0] = b
     return inner
-
-def unk_init(token, dim):
-    '''
-        For default:
-            + <pad> is 0
-            + <sos> is 1
-            + <eos> is 2
-            + <unk> is 3
-    '''
-
-    if token in ["<pad>", "<p>"]:
-        return torch.zeros(dim)
-    if token in ["<sos>", "<bos>", "<s>"]:
-        return torch.ones(dim)
-    if token in ["<eos>", "</s>"]:
-        return torch.ones(dim) * 2
-    return torch.ones(dim) * 3
