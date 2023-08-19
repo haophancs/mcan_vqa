@@ -1,0 +1,6 @@
+__pycache__
+.vector_cache
+
+*.h5
+
+examine.py
