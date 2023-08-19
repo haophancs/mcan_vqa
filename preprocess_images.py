@@ -5,26 +5,11 @@ import torch.nn as nn
 import torch.utils.data
 import torchvision.models as models
 from tqdm import tqdm
+from transformers import AutoModel
 
 import config
 from data_utils.utils import get_transform
 from data_utils.vqa_image import VQAImages
-
-
-class ResNet(nn.Module):
-    def __init__(self):
-        super(ResNet, self).__init__()
-        # self.model = caffe_resnet.resnet152(pretrained=True)
-        self.model = models.resnext50_32x4d(pretrained=True)
-
-        def save_output(module, input, output):
-            self.buffer = output
-
-        self.model.layer4.register_forward_hook(save_output)
-
-    def forward(self, x):
-        self.model(x)
-        return self.buffer
 
 
 def create_vqa_loader(path, extension='png'):
@@ -42,7 +27,7 @@ def create_vqa_loader(path, extension='png'):
 def main():
     cudnn.benchmark = True
 
-    net = ResNet().cuda()
+    net = AutoModel.from_pretrained("microsoft/resnet-50").cuda()
     net.eval()
 
     train_loader = create_vqa_loader(config.train_path, config.image_extension)
@@ -66,7 +51,7 @@ def main():
         for ids, imgs in tqdm(train_loader):
             imgs = imgs.clone().cuda()
             with torch.no_grad():
-                out = net(imgs)
+                out = net(imgs).last_hidden_state
                 out = out.detach().cpu()
 
             j = i + imgs.size(0)
@@ -80,7 +65,7 @@ def main():
         for ids, imgs in tqdm(test_loader):
             imgs = imgs.clone().cuda()
             with torch.no_grad():
-                out = net(imgs)
+                out = net(imgs).last_hidden_state
                 out = out.detach().cpu()
 
             j = i + imgs.size(0)
