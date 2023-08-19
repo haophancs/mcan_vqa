@@ -13,7 +13,7 @@ class MCAN(nn.Module):
     ):
         super(MCAN, self).__init__()
 
-        self.padding_idx = vocab.stoi["<pad>"]
+        self.padding_idx = vocab.stoi[vocab.pad_token]
 
         # image and question representation
         self.visual_embedding = VisualEmbedding(d_model, dropout)
