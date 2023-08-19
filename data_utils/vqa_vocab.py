@@ -42,7 +42,6 @@ class VQAVocab(object):
 
 
     def _encode_question(self, question):
-        print(question)
         """ Turn a question into a vector of indices and a question length """
         vec = torch.ones(self.max_question_length).long() * self.stoi[self.pad_token]
         for i, token in enumerate(question):
