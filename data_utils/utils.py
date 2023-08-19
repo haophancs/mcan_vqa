@@ -2,10 +2,10 @@ import torch
 from torchvision import transforms
 import re
 
-def preprocess_question(question, sos_token, eos_token):
+def preprocess_question(question, tokenizer):
     question = re.sub("\"", "", question)
     question = question.lower().strip().split()
-    return [sos_token] + question + [eos_token]
+    return [sos_token] + tokenizer.tokenize(question) + [eos_token]
 
 def preprocess_answer(answer):
     answer = re.sub("\"", "", answer)

@@ -32,12 +32,7 @@ class VQAVocab(object):
             question_data = json.load(open(json_path_prefix + 'questions.json'))
             annotation_data = json.load(open(json_path_prefix + 'annotations.json'))
             for q_item, a_item in zip(question_data["questions"], annotation_data["annotations"]):
-                question = self.tokenizer(
-                    preprocess_question(
-                        q_item["question"],
-                        self.bos_token,
-                        self.eos_token
-                    ))["input_ids"]
+                question = preprocess_question(q_item["question"], self.tokenizer)
                 answer = preprocess_answer(a_item["multiple_choice_answer"])
                 self.output_cats.add(answer)
                 if len(question) > self.max_question_length:
