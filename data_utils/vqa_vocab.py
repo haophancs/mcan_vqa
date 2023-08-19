@@ -21,8 +21,12 @@ class VQAVocab(object):
         self.output_cats = set()
         self.make_vocab(json_prefixes)
 
-        self.stoi = AutoTokenizer.from_pretrained(pretrained_tokenizer_name).get_vocab()
+        tokenizer = AutoTokenizer.from_pretrained(pretrained_tokenizer_name)
+        self.pad_token = tokenizer.pad_token
+        self.stoi = tokenizer.get_vocab()
         self.itos = {v: k for k, v in self.stoi.items()}
+
+        print(self.max_question_length)
 
     def make_vocab(self, json_path_prefixes):
         for json_path_prefix in json_path_prefixes:
@@ -39,7 +43,7 @@ class VQAVocab(object):
 
     def _encode_question(self, question):
         """ Turn a question into a vector of indices and a question length """
-        vec = torch.ones(self.max_question_length).long() * self.stoi["<pad>"]
+        vec = torch.ones(self.max_question_length).long() * self.stoi[self.pad_token]
         for i, token in enumerate(question):
             vec[i] = self.stoi[token]
         return vec
