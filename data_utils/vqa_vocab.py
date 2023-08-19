@@ -21,9 +21,9 @@ class VQAVocab(object):
         self.output_cats = set()
         self.make_vocab(json_prefixes)
 
-        tokenizer = AutoTokenizer.from_pretrained(pretrained_tokenizer_name)
-        self.pad_token = tokenizer.pad_token
-        self.stoi = tokenizer.get_vocab()
+        self.tokenizer = AutoTokenizer.from_pretrained(pretrained_tokenizer_name)
+        self.pad_token = self.tokenizer.pad_token
+        self.stoi = self.tokenizer.get_vocab()
         self.itos = {v: k for k, v in self.stoi.items()}
 
         raise ValueError
