@@ -12,6 +12,7 @@ import pickle
 import config
 from data_utils.vqa_vocab import VQAVocab
 from model.mcan import MCAN
+from model.embedding import VisualEmbedding, PretrainedTextEmbedding
 from data_utils.vqa_extracted_features import VQA, get_loader
 from metric_utils.metrics import Metrics
 from metric_utils.tracker import Tracker

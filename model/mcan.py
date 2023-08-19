@@ -3,7 +3,7 @@ from torch import nn
 
 import numpy as np
 
-from model.embedding import VisualEmbedding, PretrainedTextEmbedding
+from model.embedding import VisualEmbedding
 from model.deep_co_attention import DeepCoAttention
 from model.fusion_model import FusionModel
 
